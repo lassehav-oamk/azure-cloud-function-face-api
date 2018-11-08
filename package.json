@@ -1,0 +1,18 @@
+{
+  "name": "azure-face-api-cloud-function",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lassehav-oamk/azure-face-api-cloud-function.git"
+  },
+  "author": "Lasse Haverinen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lassehav-oamk/azure-face-api-cloud-function/issues"
+  },
+  "homepage": "https://github.com/lassehav-oamk/azure-face-api-cloud-function#readme",
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}
