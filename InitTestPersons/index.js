@@ -168,17 +168,22 @@ module.exports = async function (context, req) {
     {
         const filePath = process.env['TestImagePath'] + faceData.person1[i] + process.env['FileStorageSASKey'];
         const addFaceResponse = await addFaceToPerson(personGroupId, personCreateResponse.data.personId, filePath);
-        context.log("Person 1 Face add status " + addFaceResponse.status);
-        context.log("Person 1 Face add data " + addFaceResponse.data);
+        context.log(`Person ${i} Face add status ${addFaceResponse.status}`);
+        context.log(`Person  ${i} Face add data ${addFaceResponse.data}`);
     }
 
     const trainResponse = await trainPersonGroup(personGroupId);
     context.log("Train status " + trainResponse.status);
     context.log("Train data " + trainResponse.data);
     
+    if(trainResponse.status == 202)
+    {
+        trainResponse.data = { status: "Training completed "};
+    }
+
     context.res = {
-        status: addFaceResponse.status,
-        body: addFaceResponse.data
+        status: trainResponse.status,
+        body: trainResponse.data
     };
     
 
