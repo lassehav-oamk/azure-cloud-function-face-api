@@ -1,16 +1,18 @@
 const axios = require('axios');
+const sharedCodeDemo = require('../Shared/sharedCodeDemo');
+console.log('ImageUpload shared code sum result ' + sharedCodeDemo.sum(5, 10));
 
 const axiosCustom = axios.create({
-    baseURL: 'https://northeurope.api.cognitive.microsoft.com/face/v1.0',    
+    baseURL: 'https://northeurope.api.cognitive.microsoft.com/face/v1.0',
     headers: {
         'Content-Type': 'application/json',
-        'Ocp-Apim-Subscription-Key': process.env['FaceApiAccessKey']         
+        'Ocp-Apim-Subscription-Key': process.env['FaceApiAccessKey']
     }
   });
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
-    
+
     const contentLength = parseInt(req.headers['content-length']);
 
     // Get the multipart boundary marker, see multipart details https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html
@@ -25,7 +27,7 @@ module.exports = async function (context, req) {
     //  ----------------------------495851880813268952814107
     //  Content-Disposition: form-data; name="image"; filename="upload_test.png"
     //  Content-Type: image/png
-    // 
+    //
     // *Data starts here*
     let lineBreakCounter = 0;
     let dataStartIndex = 0;

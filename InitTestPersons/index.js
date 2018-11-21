@@ -1,10 +1,12 @@
 const axios = require('axios');
+const sharedCodeDemo = require('../Shared/sharedCodeDemo');
+console.log('InitTestPersons shared code sum result ' + sharedCodeDemo.sum(5, 20));
 
 const axiosCustom = axios.create({
-    baseURL: 'https://northeurope.api.cognitive.microsoft.com/face/v1.0',    
+    baseURL: 'https://northeurope.api.cognitive.microsoft.com/face/v1.0',
     headers: {
         'Content-Type': 'application/json',
-        'Ocp-Apim-Subscription-Key': process.env['FaceApiAccessKey']         
+        'Ocp-Apim-Subscription-Key': process.env['FaceApiAccessKey']
     }
   });
 
@@ -104,7 +106,7 @@ async function trainPersonGroup(personGroupId)
         status: null,
         data: null
     };
-    try {        
+    try {
         const response = await axiosCustom.post(`/persongroups/${personGroupId}/train`);
         returnData.status = response.status;
         returnData.data = response.data;
@@ -118,6 +120,8 @@ async function trainPersonGroup(personGroupId)
 }
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
+
+
 
     // Example image
     // https://faceregonizerstorage.file.core.windows.net/facetestapp07112018-content-2a29/faceTestImages/Family1-Dad1.jpg
@@ -137,7 +141,7 @@ module.exports = async function (context, req) {
     const deletePersonGroupResponse = await deletePersonGroup(personGroupId);
     context.log("Person group delete status " + deletePersonGroupResponse.status);
     context.log("Person group delete data " + deletePersonGroupResponse.data);
-   
+
     const createPersonGroupResponse = await createPersonGroup(personGroupId);
     context.log("Person group create status " + createPersonGroupResponse.status);
     context.log("Person group create data " + createPersonGroupResponse.data);
@@ -145,8 +149,8 @@ module.exports = async function (context, req) {
     const personCreateResponse = await createPerson(personGroupId, { name: 'Max Tester'});
     context.log("Person create status " + personCreateResponse.status);
     context.log("Person create data " + personCreateResponse.data);
-    
-    const faceData ={ 
+
+    const faceData ={
         person1: [
             'Family1-Dad1.jpg',
             'Family1-Dad2.jpg',
@@ -175,7 +179,7 @@ module.exports = async function (context, req) {
     const trainResponse = await trainPersonGroup(personGroupId);
     context.log("Train status " + trainResponse.status);
     context.log("Train data " + trainResponse.data);
-    
+
     if(trainResponse.status == 202)
     {
         trainResponse.data = { status: "Training completed "};
@@ -185,7 +189,7 @@ module.exports = async function (context, req) {
         status: trainResponse.status,
         body: trainResponse.data
     };
-    
+
 
 
     // Detect face in Image
